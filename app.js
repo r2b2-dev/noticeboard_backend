@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/user", authRouter);
+app.use("/api", authRouter);
 
 const PORT = process.env.PORT || 4000;
 
