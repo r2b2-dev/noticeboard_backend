@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import "./dbConnection/db";
-import authRouter from "./routes/auth";
+import authRouter from "./routes/api";
 
 const app = express();
 app.use(cors());

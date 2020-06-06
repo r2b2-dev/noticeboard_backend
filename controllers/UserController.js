@@ -1,5 +1,6 @@
-import User from "../../models/UserModel";
-const Validations = require("../../Validations");
+import User from "../models/UserModel";
+import bcrypt from "bcrypt";
+const Validations = require("../Validations");
 
 class UserController {
   // Add New User to database
@@ -30,6 +31,7 @@ class UserController {
       }
     }
   }
+
   // Return All Users from Database
   async getAllUsers(request, response) {
     try {
@@ -46,47 +48,49 @@ class UserController {
       response.status(500).json({ success: false, error: error.message });
     }
   }
+
   //Update Single User
-  async updateUserDetails(request, response) {
-    const result = Validations.updateUserDetails(request.body);
-    if (result.error) {
-      let error = result.error.details[0];
-      response.status(422).json({
-        success: false,
-        error: { field: error.path[0], message: error.message },
-      });
-    } else {
-      const { firstName, lastName, email, userType } = result.value;
+  async updateUserDetails(req, res) {
+    bcrypt.hash(req.body.password, 10, (err, hashPass) => {
+      let firstName = req.body.firstName;
+      let lastName = req.body.lastName;
+      let email = req.body.email;
+      let password = hashPass;
+      let userType = req.body.userType;
 
-      try {
-        let userEmail = await User.emailExists(email);
-        if (userEmail) {
-          if (userEmail._id.toString() !== request.authUser._id.toString()) {
-            response.status(409).json({
-              success: false,
-              error: {
-                field: "email",
-                message: "Email already registered !",
-              },
-            });
-            return;
+      if (userType == "admin") {
+        User.updateOne(
+          {
+            _id: req.body._id,
+          },
+          {
+            $set: {
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              password: password,
+            },
           }
-        }
-        let updatedUser = await User.findOneAndUpdate(
-          { _id: request.authUser._id },
-          { firstName, lastName, email, userType },
-          { new: true }
-        );
-
-        response.status(200).json({
-          success: true,
-          message: "Details updated successfully !",
-          updatedUser: updatedUser,
+        )
+          .then(function () {
+            res.status(200).json({
+              updated: true,
+              message: "Update sucessfull!",
+            });
+          })
+          .catch(function () {
+            res.status(200).json({
+              updated: false,
+              message: "failed to update!",
+            });
+          });
+      } else {
+        res.status(400).json({
+          updated: false,
+          message: "Access denied!",
         });
-      } catch (error) {
-        response.status(500).json({ success: false, error: error.message });
       }
-    }
+    });
   }
   //Delete User
   async deleteuser(request, response) {
