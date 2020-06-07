@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 mongoose
-	.connect('mongodb://127.0.0.1:27017/notice_board', {
+	.connect(process.env.MONGO_URI, {
 		useNewUrlParser: true,
 		useCreateIndex: true,
 		useFindAndModify: false,
