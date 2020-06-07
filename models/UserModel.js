@@ -79,9 +79,6 @@ UserSchema.statics.emailExists = async function (email) {
 // compare login password with database password
 UserSchema.methods.comparePassword = async function (plainPassword) {
   let match = await bcrypt.compare(plainPassword, this.password);
-  console.log(plainPassword);
-  console.log(this.password);
-  console.log(match);
   return match;
 };
 
