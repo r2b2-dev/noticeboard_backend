@@ -27,7 +27,11 @@ class UsersController {
 				let moderator = new User(result.value)
 				moderator.password = password
 				let newModerator = await moderator.save()
-				response.status(201).json({ success: true, message: 'Moderator added!', moderator: newModerator })
+				response.status(201).json({
+					success: true,
+					message: `Added a new moderator ${newModerator.firstName + ' ' + newModerator.lastName}!`,
+					moderator: newModerator,
+				})
 			} catch (error) {
 				response.status(500).json({ success: false, error: error.message })
 			}
@@ -58,29 +62,43 @@ class UsersController {
 			let error = result.error.details[0]
 			response.status(422).json({ success: false, error: { field: error.path[0], message: error.message } })
 		} else {
+			let moderatorId = request.params.moderatorId
 			let { firstName, lastName, email, password } = result.value
-			try {
-				let userEmail = await User.emailExists(email)
-				if (userEmail) {
-					if (userEmail._id.toString() !== request.authUser._id.toString()) {
-						response.status(409).json({ success: false, error: { field: 'email', message: 'Email already taken !' } })
-						return
-					}
-				}
-				let moderatorId = request.params.moderatorId
 
-				let moderator = await User.findOneAndUpdate(
-					{ _id: moderatorId },
-					{ firstName, lastName, email, password: await bcrypt.hash(password, 10) },
-					{ new: true }
-				)
-				if (!moderator) {
-					response.status(404).json({ success: false, message: 'Record does not exist!' })
-				} else {
-					response.status(201).json({ success: true, message: 'Record updated!', moderator: moderator })
+			/*
+			check if the user who wants to update the record is an admin 
+			or the owner of the record
+			*/
+			if (request.authUser._id.toString() === moderatorId || request.authUser.type === 'Admin') {
+				try {
+					let userEmail = await User.emailExists(email)
+
+					if (userEmail) {
+						if (userEmail._id.toString() !== moderatorId.toString()) {
+							response.status(409).json({ success: false, error: { field: 'email', message: 'Email already taken !' } })
+							return
+						}
+					}
+
+					let moderator = await User.findOneAndUpdate(
+						{ _id: moderatorId },
+						{ firstName, lastName, email, password: await bcrypt.hash(password, 10) },
+						{ new: true }
+					)
+					if (!moderator) {
+						response.status(404).json({ success: false, message: 'Record does not exist!' })
+					} else {
+						response.status(201).json({
+							success: true,
+							message: `Updated moderator ${moderator.firstName + ' ' + moderator.lastName}!`,
+							moderator: moderator,
+						})
+					}
+				} catch (error) {
+					response.status(500).json({ success: false, error: error.message })
 				}
-			} catch (error) {
-				response.status(500).json({ success: false, error: error.message })
+			} else {
+				response.status(401).json({ success: false, error: 'You cannot update this record!' })
 			}
 		}
 	}
@@ -94,7 +112,7 @@ class UsersController {
 			} else {
 				response.status(200).json({
 					success: true,
-					message: `Moderator ${deletedModerator.firstName + ' ' + deletedModerator.lastName} removed successfully!`,
+					message: `Removed moderator ${deletedModerator.firstName + ' ' + deletedModerator.lastName}!`,
 					moderator: deletedModerator,
 				})
 			}

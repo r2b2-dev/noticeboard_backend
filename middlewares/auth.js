@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-import { keys } from '../config/keys'
 import User from '../models/User'
 
 export const checkAuth = async (request, response, next) => {
