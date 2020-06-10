@@ -40,11 +40,13 @@ ROUTER.get(
 );
 ROUTER.put(
   "/departments/:departmentId",
+  checkAuth,
   DepartmentController.updateDepartments
 );
 
 ROUTER.delete(
   "/departments/:departmentId",
+  checkAuth,
   DepartmentController.deleteDepartments
 );
 
