@@ -5,6 +5,7 @@ import SignOutController from "../controllers/authController/SignOutController";
 import DepartmentController from "../controllers/DepartmentController";
 import { checkAuth } from "../middlewares/auth";
 import { isAdmin } from "../middlewares/isAdmin";
+import Department from "../models/Departments";
 
 const ROUTER = express.Router();
 
@@ -37,4 +38,14 @@ ROUTER.get(
   checkAuth,
   DepartmentController.getAllDepartments
 );
+ROUTER.put(
+  "/departments/:departmentId",
+  DepartmentController.updateDepartments
+);
+
+ROUTER.delete(
+  "/departments/:departmentId",
+  DepartmentController.deleteDepartments
+);
+
 export default ROUTER;

@@ -74,7 +74,8 @@ const updateModerator = (updateModeratorData) => {
       .messages({
         "string.base": "Password must be a string",
         "string.empty": "Password is required",
-        "string.pattern.base": "Password must match the pattern [a-zA-Z0-9]",
+        "string.pattern.base":
+          "Password must match the pattern [a-z, A-Z, 0-9]",
         "string.min": "Password must be at least 8 characters long",
         "any.required": "Password is required",
       }),
@@ -103,9 +104,29 @@ const addDepartment = (addDepartmentData) => {
   return addDepartmentDataSchmea.validate(addDepartmentData);
 };
 
+//update department validation
+const updateDepartment = (updateDepartmentData) => {
+  const updateDepartmentSchema = Joi.object({
+    departmentName: Joi.string().required().messages({
+      "string.base": "Department name must be a string",
+      "string.empty": "Field cannot be empty",
+    }),
+    location: Joi.string().required().messages({
+      "string.base": "Department location must be a string",
+      "string.empty": "Field cannot be empty",
+    }),
+    departmentType: Joi.string().required().messages({
+      "string.base": "Department type is must be a string",
+      "string.empty": "Field cannot be empty",
+    }),
+  });
+  return updateDepartmentSchema.validate(updateDepartmentData);
+};
+
 module.exports = {
   signIn,
   addModerator,
   updateModerator,
   addDepartment,
+  updateDepartment,
 };
