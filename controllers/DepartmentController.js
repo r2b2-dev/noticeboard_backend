@@ -99,7 +99,7 @@ class DepartmentController {
         res.status(200).json({
           success: true,
           message: `Removed department ${deletedDepartment.departmentName}!`,
-          alu: deletedDepartment,
+          department: deletedDepartment,
         });
       }
     } catch (error) {
