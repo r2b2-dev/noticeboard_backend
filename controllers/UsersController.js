@@ -64,7 +64,6 @@ class UsersController {
 		} else {
 			let moderatorId = request.params.moderatorId
 			let { firstName, lastName, email, password } = result.value
-
 			/*
 			check if the user who wants to update the record is an admin 
 			or the owner of the record
