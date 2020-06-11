@@ -9,7 +9,7 @@ const signIn = (signInData) => {
 			'string.email': 'E-mail must be a valid email',
 			'any.required': 'E-mail is a required field',
 		}),
-		password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).min(8).required().messages({
+		password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9@_*.!%^&#$]{3,30}$')).min(8).required().messages({
 			'string.base': 'Password must be a string',
 			'string.empty': 'Password cannot be empty',
 			'string.pattern.base': 'Password must match the pattern [a-zA-Z0-9]',
@@ -21,7 +21,7 @@ const signIn = (signInData) => {
 }
 
 // add moderator validation
-const addModerator = (addModeratorData) => {
+const addModerator = (moderatorData) => {
 	const addModeratorSchema = Joi.object({
 		firstName: Joi.string().min(2).max(20).required().messages({
 			'string.base': 'First name must be a string',
@@ -45,10 +45,11 @@ const addModerator = (addModeratorData) => {
 		}),
 	})
 
-	return addModeratorSchema.validate(addModeratorData)
+	return addModeratorSchema.validate(moderatorData)
 }
 
-const updateModerator = (updateModeratorData) => {
+// update moderator validation
+const updateModerator = (moderatorData) => {
 	const updateModeratorSchema = Joi.object({
 		firstName: Joi.string().min(2).max(20).required().messages({
 			'string.base': 'First name must be a string',
@@ -70,7 +71,7 @@ const updateModerator = (updateModeratorData) => {
 			'string.email': 'E-mail must be a valid email',
 			'any.required': 'E-mail is a required field',
 		}),
-		password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).min(8).required().messages({
+		password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9@_*.!%^&#$]{3,30}$')).min(8).required().messages({
 			'string.base': 'Password must be a string',
 			'string.empty': 'Password cannot be empty',
 			'string.pattern.base': 'Password must match the pattern [a-z, A-Z, 0-9]',
@@ -79,21 +80,11 @@ const updateModerator = (updateModeratorData) => {
 		}),
 	})
 
-	return updateModeratorSchema.validate(updateModeratorData)
+	return updateModeratorSchema.validate(moderatorData)
 }
 
-const addBatch = (batchData) => {
-  const batchSchema = Joi.object({
-    batch: Joi.string().required().messages({
-      "string.base": "batch must be a string",
-      "string.empty": "batch is required",
-    }),
-  });
-
-  return batchSchema.validate(batchData);
-};
 //add department validation
-const addDepartment = (addDepartmentData) => {
+const addDepartment = (departmentData) => {
 	const addDepartmentSchmea = Joi.object({
 		name: Joi.string().min(2).required().messages({
 			'string.base': 'Department name must be a string',
@@ -115,7 +106,21 @@ const addDepartment = (addDepartmentData) => {
 		}),
 	})
 
-	return addDepartmentSchmea.validate(addDepartmentData)
+	return addDepartmentSchmea.validate(departmentData)
+}
+
+// add batch validation
+const addBatch = (batchData) => {
+	const addBatchSchema = Joi.object({
+		label: Joi.string().min(2).required().messages({
+			'string.base': 'Batch label must be a string',
+			'string.empty': 'Batch label cannot be empty',
+			'string.min': 'Batch label must be at least 2 characters long',
+			'any.required': 'Label is a required field',
+		}),
+	})
+
+	return addBatchSchema.validate(batchData)
 }
 
 module.exports = {
@@ -123,5 +128,5 @@ module.exports = {
 	addModerator,
 	updateModerator,
 	addDepartment,
-  addBatch,
+	addBatch,
 }

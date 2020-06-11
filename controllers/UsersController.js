@@ -89,7 +89,7 @@ class UsersController {
 					} else {
 						response.status(201).json({
 							success: true,
-							message: `Updated moderator ${moderator.firstName + ' ' + moderator.lastName}!`,
+							message: `Moderator updated!`,
 							moderator: moderator,
 						})
 					}

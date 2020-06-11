@@ -66,7 +66,7 @@ class DepartmentsController {
 				if (updatedDepartment) {
 					response.status(200).json({
 						success: true,
-						message: `Updated department ${updatedDepartment.name}!`,
+						message: `Department updated!`,
 						department: updatedDepartment,
 					})
 				}

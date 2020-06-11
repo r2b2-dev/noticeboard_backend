@@ -3,11 +3,11 @@ import UsersController from '../controllers/UsersController'
 import SignInController from '../controllers/authController/SignInController'
 import SignOutController from '../controllers/authController/SignOutController'
 import DepartmentsController from '../controllers/DepartmentsController'
-import BatchController from '../controllers/BatchController'
+import BatchesController from '../controllers/BatchesController'
 import { checkAuth } from '../middlewares/auth'
 import { isAdmin } from '../middlewares/isAdmin'
 
-const ROUTER = express.Router();
+const ROUTER = express.Router()
 
 ROUTER.post('/sign-in', SignInController.signIn)
 ROUTER.post('/sign-out', checkAuth, SignOutController.signOut)
@@ -23,10 +23,10 @@ ROUTER.get('/departments', checkAuth, DepartmentsController.getAllDepartments)
 ROUTER.put('/departments/:departmentId', checkAuth, DepartmentsController.updateDepartment)
 ROUTER.delete('/departments/:departmentId', checkAuth, DepartmentsController.deleteDepartment)
 
-ROUTER.post('/batch', checkAuth, batchController.addBatch)
-ROUTER.get('/batch', checkAuth, batchController.getAllBatch)
-ROUTER.get('/batch/:batchId', checkAuth, batchController.getSingleBatch)
-ROUTER.put('/batch/:batchId', checkAuth, batchController.updateBatchDetails)
-ROUTER.delete('/batch/:batchId', checkAuth, batchController.deleteBatch)
+ROUTER.post('/batches', checkAuth, BatchesController.addBatch)
+ROUTER.get('/batches', checkAuth, BatchesController.getAllBatches)
+ROUTER.get('/batches/:batchId', checkAuth, BatchesController.getSingleBatch)
+ROUTER.put('/batches/:batchId', checkAuth, BatchesController.updateBatchDetails)
+ROUTER.delete('/batches/:batchId', checkAuth, BatchesController.deleteBatch)
 
-export default ROUTER;
+export default ROUTER
