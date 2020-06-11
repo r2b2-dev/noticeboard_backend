@@ -1,132 +1,117 @@
-import Joi from "@hapi/joi";
+import Joi from '@hapi/joi'
 
 // sign in validaiton
 const signIn = (signInData) => {
-  const signInSchema = Joi.object({
-    email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
-      "string.base": "E-mail must be a string",
-      "string.empty": "E-mail is required",
-      "string.email": "E-mail must be a valid email",
-    }),
-    password: Joi.string()
-      .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .min(8)
-      .required()
-      .messages({
-        "string.base": "Password must be a string",
-        "string.empty": "Password is required",
-        "string.pattern.base": "Password must match the pattern [a-zA-Z0-9]",
-        "string.min": "Password must be at least 8 characters long",
-      }),
-  });
+	const signInSchema = Joi.object({
+		email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
+			'string.base': 'E-mail must be a string',
+			'string.empty': 'E-mail cannot be empty',
+			'string.email': 'E-mail must be a valid email',
+			'any.required': 'E-mail is a required field',
+		}),
+		password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).min(8).required().messages({
+			'string.base': 'Password must be a string',
+			'string.empty': 'Password cannot be empty',
+			'string.pattern.base': 'Password must match the pattern [a-zA-Z0-9]',
+			'string.min': 'Password must be at least 8 characters long',
+			'any.required': 'Password is a required field',
+		}),
+	})
 
-  return signInSchema.validate(signInData);
-};
+	return signInSchema.validate(signInData)
+}
 
 // add moderator validation
 const addModerator = (addModeratorData) => {
-  const addModeratorSchema = Joi.object({
-    firstName: Joi.string().min(2).max(20).required().messages({
-      "string.base": "First name must be a string",
-      "string.empty": "First name is required",
-      "string.min": "First name must be at least 2 characters long",
-      "string.max": "First name cannot be longer than 20 characters",
-    }),
-    lastName: Joi.string().min(2).max(20).required().messages({
-      "string.base": "Last name must be a string",
-      "string.empty": "Last name is required",
-      "string.min": "Last name must be at least 2 characters long",
-      "string.max": "Last name cannot be longer than 20 characters",
-    }),
-    email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
-      "string.base": "E-mail must be a string",
-      "string.empty": "E-mail is required",
-      "string.email": "E-mail must be a valid email",
-    }),
-  });
+	const addModeratorSchema = Joi.object({
+		firstName: Joi.string().min(2).max(20).required().messages({
+			'string.base': 'First name must be a string',
+			'string.empty': 'First name cannot be empty',
+			'string.min': 'First name must be at least 2 characters long',
+			'string.max': 'First name cannot be longer than 20 characters',
+			'any.required': 'First name is a required field',
+		}),
+		lastName: Joi.string().min(2).max(20).required().messages({
+			'string.base': 'Last name must be a string',
+			'string.empty': 'Last name cannot be empty',
+			'string.min': 'Last name must be at least 2 characters long',
+			'string.max': 'Last name cannot be longer than 20 characters',
+			'any.required': 'Last name is a required field',
+		}),
+		email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
+			'string.base': 'E-mail must be a string',
+			'string.empty': 'E-mail cannot be empty',
+			'string.email': 'E-mail must be a valid email',
+			'any.required': 'E-mail is a required field',
+		}),
+	})
 
-  return addModeratorSchema.validate(addModeratorData);
-};
+	return addModeratorSchema.validate(addModeratorData)
+}
 
 const updateModerator = (updateModeratorData) => {
-  const updateModeratorSchema = Joi.object({
-    firstName: Joi.string().min(2).max(20).required().messages({
-      "string.base": "First name must be a string",
-      "string.empty": "First name is required",
-      "string.min": "First name must be at least 2 characters long",
-      "string.max": "First name cannot be longer than 20 characters",
-    }),
-    lastName: Joi.string().min(2).max(20).required().messages({
-      "string.base": "Last name must be a string",
-      "string.empty": "Last name is required",
-      "string.min": "Last name must be at least 2 characters long",
-      "string.max": "Last name cannot be longer than 20 characters",
-    }),
-    email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
-      "string.base": "E-mail must be a string",
-      "string.empty": "E-mail is required",
-      "string.email": "E-mail must be a valid email",
-    }),
-    password: Joi.string()
-      .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-      .min(8)
-      .required()
-      .messages({
-        "string.base": "Password must be a string",
-        "string.empty": "Password is required",
-        "string.pattern.base":
-          "Password must match the pattern [a-z, A-Z, 0-9]",
-        "string.min": "Password must be at least 8 characters long",
-        "any.required": "Password is required",
-      }),
-  });
+	const updateModeratorSchema = Joi.object({
+		firstName: Joi.string().min(2).max(20).required().messages({
+			'string.base': 'First name must be a string',
+			'string.empty': 'First name cannot be empty',
+			'string.min': 'First name must be at least 2 characters long',
+			'string.max': 'First name cannot be longer than 20 characters',
+			'any.required': 'First name is a required field',
+		}),
+		lastName: Joi.string().min(2).max(20).required().messages({
+			'string.base': 'Last name must be a string',
+			'string.empty': 'Last name cannot be empty',
+			'string.min': 'Last name must be at least 2 characters long',
+			'string.max': 'Last name cannot be longer than 20 characters',
+			'any.required': 'Last name is a required field',
+		}),
+		email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
+			'string.base': 'E-mail must be a string',
+			'string.empty': 'E-mail cannot be empty',
+			'string.email': 'E-mail must be a valid email',
+			'any.required': 'E-mail is a required field',
+		}),
+		password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).min(8).required().messages({
+			'string.base': 'Password must be a string',
+			'string.empty': 'Password cannot be empty',
+			'string.pattern.base': 'Password must match the pattern [a-z, A-Z, 0-9]',
+			'string.min': 'Password must be at least 8 characters long',
+			'any.required': 'Password is a required field',
+		}),
+	})
 
-  return updateModeratorSchema.validate(updateModeratorData);
-};
+	return updateModeratorSchema.validate(updateModeratorData)
+}
 
 //add department validation
 const addDepartment = (addDepartmentData) => {
-  const addDepartmentDataSchmea = Joi.object({
-    departmentName: Joi.string().required().messages({
-      "string.base": "Department name must be a string",
-      "string.empty": "Field cannot be empty",
-    }),
-    location: Joi.string().required().messages({
-      "string.base": "Department location must be a string",
-      "string.empty": "Field cannot be empty",
-    }),
-    departmentType: Joi.string().required().messages({
-      "string.base": "Department type is must be a string",
-      "string.empty": "Field cannot be empty",
-    }),
-  });
+	const addDepartmentSchmea = Joi.object({
+		name: Joi.string().min(2).required().messages({
+			'string.base': 'Department name must be a string',
+			'string.empty': 'Department name cannot be empty',
+			'string.min': 'Department name must be at least 2 characters long',
+			'any.required': 'Name is a required field',
+		}),
+		location: Joi.string().min(2).required().messages({
+			'string.base': 'Department location must be a string',
+			'string.empty': 'Department location cannot be empty',
+			'string.min': 'Department location must be at least 2 characters long',
+			'any.required': 'Location is a required field',
+		}),
+		type: Joi.string().min(2).required().messages({
+			'string.base': 'Department type must be a string',
+			'string.empty': 'Department type cannot be empty',
+			'string.min': 'Department type must be at least 2 characters long',
+			'any.required': 'Type is a required field',
+		}),
+	})
 
-  return addDepartmentDataSchmea.validate(addDepartmentData);
-};
-
-//update department validation
-const updateDepartment = (updateDepartmentData) => {
-  const updateDepartmentSchema = Joi.object({
-    departmentName: Joi.string().required().messages({
-      "string.base": "Department name must be a string",
-      "string.empty": "Field cannot be empty",
-    }),
-    location: Joi.string().required().messages({
-      "string.base": "Department location must be a string",
-      "string.empty": "Field cannot be empty",
-    }),
-    departmentType: Joi.string().required().messages({
-      "string.base": "Department type is must be a string",
-      "string.empty": "Field cannot be empty",
-    }),
-  });
-  return updateDepartmentSchema.validate(updateDepartmentData);
-};
+	return addDepartmentSchmea.validate(addDepartmentData)
+}
 
 module.exports = {
-  signIn,
-  addModerator,
-  updateModerator,
-  addDepartment,
-  updateDepartment,
-};
+	signIn,
+	addModerator,
+	updateModerator,
+	addDepartment,
+}
