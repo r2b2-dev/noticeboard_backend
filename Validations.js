@@ -17,7 +17,6 @@ const signIn = (signInData) => {
 			'any.required': 'Password is a required field',
 		}),
 	})
-
 	return signInSchema.validate(signInData)
 }
 
@@ -83,6 +82,16 @@ const updateModerator = (updateModeratorData) => {
 	return updateModeratorSchema.validate(updateModeratorData)
 }
 
+const addBatch = (batchData) => {
+  const batchSchema = Joi.object({
+    batch: Joi.string().required().messages({
+      "string.base": "batch must be a string",
+      "string.empty": "batch is required",
+    }),
+  });
+
+  return batchSchema.validate(batchData);
+};
 //add department validation
 const addDepartment = (addDepartmentData) => {
 	const addDepartmentSchmea = Joi.object({
@@ -114,4 +123,5 @@ module.exports = {
 	addModerator,
 	updateModerator,
 	addDepartment,
+  addBatch,
 }
