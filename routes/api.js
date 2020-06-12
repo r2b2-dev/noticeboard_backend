@@ -68,11 +68,11 @@ ROUTER.delete(
 
 ROUTER.post("/teacher", checkAuth, TeachersController.addTeacher);
 ROUTER.get("/teacher", checkAuth, TeachersController.getAllTeacher);
-// ROUTER.get(
-//   "/teacher/:teacherId",
-//   checkAuth,
-//   TeachersController.getSingleTeacher
-// );
+ROUTER.get(
+  "/teacher/:teacherId",
+  checkAuth,
+  TeachersController.getSingleTeacher
+);
 ROUTER.put("/teacher/:teacherId", checkAuth, TeachersController.updateTeacher);
 ROUTER.delete(
   "/subject/:teacherId",
