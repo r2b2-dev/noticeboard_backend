@@ -54,6 +54,11 @@ ROUTER.delete("/batches/:batchId", checkAuth, BatchesController.deleteBatch);
 
 ROUTER.post("/subject", checkAuth, SubjectsController.addSubject);
 ROUTER.get("/subject", checkAuth, SubjectsController.getAllSubjects);
+ROUTER.get(
+  "/subject/:subjectId",
+  checkAuth,
+  SubjectsController.getSingleSubject
+);
 ROUTER.put("/subject/:subjectId", checkAuth, SubjectsController.updateSubject);
 ROUTER.delete(
   "/subject/:subjectId",
@@ -63,7 +68,12 @@ ROUTER.delete(
 
 ROUTER.post("/teacher", checkAuth, TeachersController.addTeacher);
 ROUTER.get("/teacher", checkAuth, TeachersController.getAllTeacher);
-ROUTER.put("/teacjer/:teacherId", checkAuth, TeachersController.updateTeacher);
+// ROUTER.get(
+//   "/teacher/:teacherId",
+//   checkAuth,
+//   TeachersController.getSingleTeacher
+// );
+ROUTER.put("/teacher/:teacherId", checkAuth, TeachersController.updateTeacher);
 ROUTER.delete(
   "/subject/:teacherId",
   checkAuth,
