@@ -56,17 +56,19 @@ class DepartmentsController {
 				error: { field: error.path[0], message: error.message },
 			})
 		} else {
-			let { name, type, location } = result.value
+			let { name, location } = result.value
 			try {
 				let updatedDepartment = await Department.findOneAndUpdate(
 					{ _id: request.params.departmentId },
 					{ name, type, location },
 					{ new: true }
 				)
-				if (updatedDepartment) {
+				if (!updatedDepartment) {
+					response.status(404).json({ success: false, message: 'Record does not exist!' })
+				} else {
 					response.status(200).json({
 						success: true,
-						message: `Department updated!`,
+						message: `Department details updated!`,
 						department: updatedDepartment,
 					})
 				}
@@ -88,7 +90,7 @@ class DepartmentsController {
 			if (!deletedDepartment) {
 				response.status(404).json({
 					success: false,
-					error: 'Department not found!',
+					error: 'Record does not exist!',
 				})
 			} else {
 				response.status(200).json({

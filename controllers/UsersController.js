@@ -70,11 +70,11 @@ class UsersController {
 			*/
 			if (request.authUser._id.toString() === moderatorId || request.authUser.type === 'Admin') {
 				try {
-					let userEmail = await User.emailExists(email)
+					let userExists = await User.emailExists(email)
 
-					if (userEmail) {
-						if (userEmail._id.toString() !== moderatorId.toString()) {
-							response.status(409).json({ success: false, error: { field: 'email', message: 'Email already taken !' } })
+					if (userExists) {
+						if (userExists._id.toString() !== moderatorId.toString()) {
+							response.status(409).json({ success: false, error: { field: 'email', message: 'Email already taken!' } })
 							return
 						}
 					}
@@ -85,11 +85,11 @@ class UsersController {
 						{ new: true }
 					)
 					if (!moderator) {
-						response.status(404).json({ success: false, message: 'Record does not exist!' })
+						response.status(404).json({ success: false, message: 'Record not found!' })
 					} else {
 						response.status(201).json({
 							success: true,
-							message: `Moderator updated!`,
+							message: `Moderator details updated!`,
 							moderator: moderator,
 						})
 					}
@@ -102,12 +102,12 @@ class UsersController {
 		}
 	}
 
-	// Delete a  Moderator
+	// Delete Moderator
 	async deleteModerator(request, response) {
 		try {
 			let deletedModerator = await User.findOneAndDelete({ _id: request.params.moderatorId })
 			if (!deletedModerator) {
-				response.status(404).json({ success: false, error: 'Moderator not found!' })
+				response.status(404).json({ success: false, error: 'Record not found!' })
 			} else {
 				response.status(200).json({
 					success: true,
