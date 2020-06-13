@@ -22,7 +22,7 @@ class SectionsController {
       });
     } else {
       try {
-        let section = new Section(result.value);
+        let section = new Section(result.value.toUpperCase());
         let newSection = await section.save();
         response.status(201).json({
           success: true,
