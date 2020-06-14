@@ -4,6 +4,8 @@ import SignInController from '../controllers/authController/SignInController'
 import SignOutController from '../controllers/authController/SignOutController'
 import DepartmentsController from '../controllers/DepartmentsController'
 import BatchesController from '../controllers/BatchesController'
+import TeachersController from '../controllers/TeachersController'
+import SubjectsController from '../controllers/SubjectsController'
 import SectionsController from '../controllers/SectionsController'
 import { checkAuth } from '../middlewares/auth'
 import { isAdmin } from '../middlewares/isAdmin'
@@ -29,6 +31,17 @@ ROUTER.get('/batches', checkAuth, BatchesController.getAllBatches)
 ROUTER.get('/batches/:batchId', checkAuth, BatchesController.getSingleBatch)
 ROUTER.put('/batches/:batchId', checkAuth, BatchesController.updateBatchDetails)
 ROUTER.delete('/batches/:batchId', checkAuth, BatchesController.deleteBatch)
+
+ROUTER.post('/teachers', checkAuth, TeachersController.addTeacher)
+ROUTER.get('/teachers', checkAuth, TeachersController.getAllTeachers)
+ROUTER.put('/teachers/:teacherId', checkAuth, TeachersController.updateTeacher)
+ROUTER.delete('/teachers/:teacherId', checkAuth, TeachersController.deleteTeacher)
+
+ROUTER.post('/subjects', checkAuth, SubjectsController.addSubject)
+ROUTER.get('/subjects', checkAuth, SubjectsController.getAllSubjects)
+ROUTER.put('/subjects/:subjectId', checkAuth, SubjectsController.updateSubject)
+ROUTER.delete('/subjects/:subjectId', checkAuth, SubjectsController.deleteSubject)
+ROUTER.put('/subjects/:subjectId/allocate-teacher', checkAuth, SubjectsController.allocateTeacher)
 
 ROUTER.post('/sections', checkAuth, SectionsController.addSection)
 ROUTER.get('/sections', checkAuth, SectionsController.getAllSections)

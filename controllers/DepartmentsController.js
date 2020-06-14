@@ -77,7 +77,7 @@ class DepartmentsController {
 				if (updatedDepartment) {
 					response.status(200).json({
 						success: true,
-						message: `Department updated!`,
+						message: `Department details updated!`,
 						department: updatedDepartment,
 					})
 				}
@@ -99,7 +99,7 @@ class DepartmentsController {
 			if (!deletedDepartment) {
 				response.status(404).json({
 					success: false,
-					error: 'Department not found!',
+					error: 'Record does not exist!',
 				})
 			} else {
 				response.status(200).json({

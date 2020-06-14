@@ -7,14 +7,14 @@ const signIn = (signInData) => {
 			'string.base': 'E-mail must be a string',
 			'string.empty': 'E-mail cannot be empty',
 			'string.email': 'E-mail must be a valid email',
-			'any.required': 'E-mail is a required field',
+			'any.required': 'email is a required field',
 		}),
 		password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9@_*.!%^&#$]{3,30}$')).min(8).required().messages({
 			'string.base': 'Password must be a string',
 			'string.empty': 'Password cannot be empty',
 			'string.pattern.base': 'Password must match the pattern [a-zA-Z0-9]',
 			'string.min': 'Password must be at least 8 characters long',
-			'any.required': 'Password is a required field',
+			'any.required': 'password is a required field',
 		}),
 	})
 	return signInSchema.validate(signInData)
@@ -28,20 +28,20 @@ const addModerator = (moderatorData) => {
 			'string.empty': 'First name cannot be empty',
 			'string.min': 'First name must be at least 2 characters long',
 			'string.max': 'First name cannot be longer than 20 characters',
-			'any.required': 'First name is a required field',
+			'any.required': 'firstName is a required field',
 		}),
 		lastName: Joi.string().min(2).max(20).required().messages({
 			'string.base': 'Last name must be a string',
 			'string.empty': 'Last name cannot be empty',
 			'string.min': 'Last name must be at least 2 characters long',
 			'string.max': 'Last name cannot be longer than 20 characters',
-			'any.required': 'Last name is a required field',
+			'any.required': 'lastName is a required field',
 		}),
 		email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
 			'string.base': 'E-mail must be a string',
 			'string.empty': 'E-mail cannot be empty',
 			'string.email': 'E-mail must be a valid email',
-			'any.required': 'E-mail is a required field',
+			'any.required': 'email is a required field',
 		}),
 	})
 
@@ -56,27 +56,27 @@ const updateModerator = (moderatorData) => {
 			'string.empty': 'First name cannot be empty',
 			'string.min': 'First name must be at least 2 characters long',
 			'string.max': 'First name cannot be longer than 20 characters',
-			'any.required': 'First name is a required field',
+			'any.required': 'firstName is a required field',
 		}),
 		lastName: Joi.string().min(2).max(20).required().messages({
 			'string.base': 'Last name must be a string',
 			'string.empty': 'Last name cannot be empty',
 			'string.min': 'Last name must be at least 2 characters long',
 			'string.max': 'Last name cannot be longer than 20 characters',
-			'any.required': 'Last name is a required field',
+			'any.required': 'lastName is a required field',
 		}),
 		email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
 			'string.base': 'E-mail must be a string',
 			'string.empty': 'E-mail cannot be empty',
 			'string.email': 'E-mail must be a valid email',
-			'any.required': 'E-mail is a required field',
+			'any.required': 'email is a required field',
 		}),
 		password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9@_*.!%^&#$]{3,30}$')).min(8).required().messages({
 			'string.base': 'Password must be a string',
 			'string.empty': 'Password cannot be empty',
 			'string.pattern.base': 'Password must match the pattern [a-z, A-Z, 0-9]',
 			'string.min': 'Password must be at least 8 characters long',
-			'any.required': 'Password is a required field',
+			'any.required': 'password is a required field',
 		}),
 	})
 
@@ -90,19 +90,13 @@ const addDepartment = (departmentData) => {
 			'string.base': 'Department name must be a string',
 			'string.empty': 'Department name cannot be empty',
 			'string.min': 'Department name must be at least 2 characters long',
-			'any.required': 'Name is a required field',
+			'any.required': 'name is a required field',
 		}),
 		location: Joi.string().min(2).required().messages({
 			'string.base': 'Department location must be a string',
 			'string.empty': 'Department location cannot be empty',
 			'string.min': 'Department location must be at least 2 characters long',
-			'any.required': 'Location is a required field',
-		}),
-		type: Joi.string().min(2).required().messages({
-			'string.base': 'Department type must be a string',
-			'string.empty': 'Department type cannot be empty',
-			'string.min': 'Department type must be at least 2 characters long',
-			'any.required': 'Type is a required field',
+			'any.required': 'location is a required field',
 		}),
 	})
 
@@ -116,11 +110,36 @@ const addBatch = (batchData) => {
 			'string.base': 'Batch label must be a string',
 			'string.empty': 'Batch label cannot be empty',
 			'string.min': 'Batch label must be at least 2 characters long',
-			'any.required': 'Label is a required field',
+			'any.required': 'label is a required field',
 		}),
 	})
 
 	return addBatchSchema.validate(batchData)
+}
+
+//add subject validation
+const addSubject = (subjectData) => {
+	const addSubjectSchema = Joi.object({
+		name: Joi.string().min(2).required().messages({
+			'string.base': 'Subject name must be a string',
+			'string.empty': 'Subject name cannot be empty',
+			'string.min': 'Subject name must be at least 2 characters long',
+			'any.required': 'name is a required field',
+		}),
+	})
+	return addSubjectSchema.validate(subjectData)
+}
+
+const addTeacher = (teacherData) => {
+	const addTeacherSchema = Joi.object({
+		name: Joi.string().min(2).required().messages({
+			'string.base': 'Teacher name must be a string',
+			'string.empty': 'Teacher name cannot be empty',
+			'string.min': 'Teacher name must be at least 2 characters long',
+			'any.required': 'name is a required field',
+		}),
+	})
+	return addTeacherSchema.validate(teacherData)
 }
 
 const addSection = (sectionData) => {
@@ -142,5 +161,7 @@ module.exports = {
 	updateModerator,
 	addDepartment,
 	addBatch,
+	addSubject,
+	addTeacher,
 	addSection,
 }

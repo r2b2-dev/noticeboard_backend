@@ -52,7 +52,7 @@ class BatchesController {
 			let batchId = request.params.batchId
 			let batch = await Batch.findById(batchId)
 			if (!batch) {
-				response.status(404).json({ success: false, error: 'Batch not found!' })
+				response.status(404).json({ success: false, error: 'Record not found!' })
 			} else {
 				response.status(200).json({ success: true, batch: batch })
 			}
@@ -80,11 +80,11 @@ class BatchesController {
 				}
 				let updatedBatch = await Batch.findOneAndUpdate({ _id: batchId }, { label }, { new: true })
 				if (!updatedBatch) {
-					response.status(404).json({ success: false, message: 'Batch not found!' })
+					response.status(404).json({ success: false, message: 'Record not found!' })
 				} else {
 					response.status(201).json({
 						success: true,
-						message: `Batch updated!`,
+						message: `Batch details updated!`,
 						batch: updatedBatch,
 					})
 				}
@@ -94,13 +94,13 @@ class BatchesController {
 		}
 	}
 
-	// Delete a  batch
+	// Delete batch
 	async deleteBatch(request, response) {
 		try {
 			let batchId = request.params.batchId
 			let deletedBatch = await Batch.findOneAndDelete({ _id: batchId })
 			if (!deletedBatch) {
-				response.status(404).json({ success: false, error: 'Batch not found!' })
+				response.status(404).json({ success: false, error: 'Record not found!' })
 			} else {
 				response.status(200).json({
 					success: true,
