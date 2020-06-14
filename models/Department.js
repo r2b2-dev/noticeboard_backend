@@ -27,6 +27,11 @@ const DepartmentSchema = new Schema({
 	},
 })
 
+DepartmentSchema.statics.departmentExists = async (departmentName) => {
+	let departmentExists = await Department.findOne({ name: departmentName })
+	return departmentExists
+}
+
 DepartmentSchema.methods.toJSON = function () {
 	let department = this.toObject()
 	delete department.__v

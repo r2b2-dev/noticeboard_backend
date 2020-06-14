@@ -14,13 +14,20 @@ class DepartmentsController {
 			})
 		} else {
 			try {
-				let department = new Department(result.value)
-				let newDepartment = await department.save()
-				response.status(201).json({
-					success: true,
-					message: `Added a new department ${newDepartment.name}! `,
-					department: newDepartment,
-				})
+				if (await Department.departmentExists(result.value.name)) {
+					response.status(409).json({
+						success: false,
+						error: { field: 'name', message: 'Department exists already!' },
+					})
+				} else {
+					let department = new Department(result.value)
+					let newDepartment = await department.save()
+					response.status(201).json({
+						success: true,
+						message: `Added a new department ${newDepartment.name}! `,
+						department: newDepartment,
+					})
+				}
 			} catch (error) {
 				response.status(500).json({
 					success: false,
@@ -57,12 +64,16 @@ class DepartmentsController {
 			})
 		} else {
 			let { name, type, location } = result.value
+			let departmentId = request.params.departmentId
 			try {
-				let updatedDepartment = await Department.findOneAndUpdate(
-					{ _id: request.params.departmentId },
-					{ name, type, location },
-					{ new: true }
-				)
+				let departmentExists = await Department.departmentExists(name)
+				if (departmentExists) {
+					if (departmentExists._id.toString() !== departmentId.toString()) {
+						response.status(409).json({ success: false, error: { field: 'name', message: 'Department exists already!' } })
+						return
+					}
+				}
+				let updatedDepartment = await Department.findOneAndUpdate({ _id: departmentId }, { name, type, location }, { new: true })
 				if (updatedDepartment) {
 					response.status(200).json({
 						success: true,
