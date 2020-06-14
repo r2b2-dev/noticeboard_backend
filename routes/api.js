@@ -4,6 +4,7 @@ import SignInController from '../controllers/authController/SignInController'
 import SignOutController from '../controllers/authController/SignOutController'
 import DepartmentsController from '../controllers/DepartmentsController'
 import BatchesController from '../controllers/BatchesController'
+import RoutinesController from '../controllers/RoutinesController'
 import { checkAuth } from '../middlewares/auth'
 import { isAdmin } from '../middlewares/isAdmin'
 
@@ -28,5 +29,11 @@ ROUTER.get('/batches', checkAuth, BatchesController.getAllBatches)
 ROUTER.get('/batches/:batchId', checkAuth, BatchesController.getSingleBatch)
 ROUTER.put('/batches/:batchId', checkAuth, BatchesController.updateBatchDetails)
 ROUTER.delete('/batches/:batchId', checkAuth, BatchesController.deleteBatch)
+
+ROUTER.post('/routines', checkAuth, RoutinesController.addRoutine)
+ROUTER.get('/routines', checkAuth, RoutinesController.getAllRoutines)
+ROUTER.get('/routines/:routineId', checkAuth, RoutinesController.getSingleRoutine)
+ROUTER.put('/routines/:routineId', checkAuth, RoutinesController.updateRoutineDetails)
+ROUTER.delete('/routines/:routineId', checkAuth, RoutinesController.deleteRoutine)
 
 export default ROUTER

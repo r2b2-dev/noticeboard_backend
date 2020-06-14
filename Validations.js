@@ -122,6 +122,32 @@ const addBatch = (batchData) => {
 
 	return addBatchSchema.validate(batchData)
 }
+const addRoutine = (routineData) => {
+	const addRoutineSchema = Joi.object({
+		day: Joi.date().required().messages({
+			'date.base': 'Routine Day must be a date',
+			'date.empty': 'Routine Day cannot be empty',
+			'any.required': 'Routine Day is a required field',
+		}),
+		duration: Joi.string().required().messages({
+			'string.base': 'Routine duration must be a string',
+			'string.empty': 'Routine duration cannot be empty',
+			'any.required': 'Routine duration is a required field',
+		}),
+		subjectId: Joi.string().required().messages({
+			'string.base': 'SubjectId must be a string',
+			'string.empty': 'SubjectId cannot be empty',
+			'any.required': 'SubjectId is a required field',
+		}),
+		batchId: Joi.string().required().messages({
+			'string.base': 'BatchId must be a string',
+			'string.empty': 'BatchId cannot be empty',
+			'any.required': 'BatchId is a required field',
+		}),
+	})
+
+	return addRoutineSchema.validate(routineData)
+}
 
 module.exports = {
 	signIn,
@@ -129,4 +155,5 @@ module.exports = {
 	updateModerator,
 	addDepartment,
 	addBatch,
+	addRoutine,
 }
