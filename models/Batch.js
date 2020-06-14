@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import Section from '../models/Section'
 
 const Schema = mongoose.Schema
 
@@ -7,6 +8,17 @@ const BatchSchema = new Schema({
 		type: String,
 		required: [true, 'Batch label is required'],
 		trim: true,
+	},
+	sections: [
+		{
+			type: Schema.Types.ObjectId,
+			required: [true, 'Sections is required'],
+			ref: Section,
+		},
+	],
+	createdAt: {
+		type: Date,
+		default: Date.now,
 	},
 })
 

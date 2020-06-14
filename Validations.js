@@ -112,6 +112,11 @@ const addBatch = (batchData) => {
 			'string.min': 'Batch label must be at least 2 characters long',
 			'any.required': 'label is a required field',
 		}),
+		sections: Joi.array().items(Joi.string().required().messages({
+			"array.base": "Sections must be a array",
+			"array.empty": "Sections cannot be empty",
+			"any.required": "Sections is a required field",
+		}))
 	})
 
 	return addBatchSchema.validate(batchData)

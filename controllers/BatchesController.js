@@ -39,7 +39,7 @@ class BatchesController {
 	// Get all batches
 	async getAllBatches(request, response) {
 		try {
-			let allBatches = await Batch.find()
+			let allBatches = await Batch.find().populate({ path: 'sections', options: { sort: 'section' } })
 			response.status(200).json({ success: true, batches: allBatches })
 		} catch (error) {
 			response.status(500).json({ success: false, error: error.message })
