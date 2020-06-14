@@ -103,7 +103,7 @@ class SubjectsController {
 			if (!deletedSubject) {
 				response.status(404).json({
 					success: false,
-					error: 'Subject not found!',
+					message: 'Subject not found!',
 				})
 			} else {
 				response.status(200).json({
@@ -120,24 +120,58 @@ class SubjectsController {
 		}
 	}
 
-	// assign teacher to a subject
-	async allocateTeacher(request, response) {
-		let subjectId = request.params.subjectId
-		let { teacherId } = request.body
-		let teacher = await Teacher.findOne({ _id: teacherId })
-		if (!teacher) {
-			response.status(404).json({
-				success: false,
-				error: 'Teacher not found!',
-			})
-		} else {
-			let subject = await Subject.findOneAndUpdate({ _id: subjectId }, { $push: { teachers: teacher } }, { new: true })
-			if (subject) {
+	// assign teachers to a subject
+	async allocateTeachersToSubject(request, response) {
+		let { subjectId } = request.body
+		let teachersToAllocate = request.body.teachers
+		try {
+			let subject = await Subject.findOneAndUpdate(
+				{ _id: subjectId },
+				{ $push: { teachers: { $each: teachersToAllocate } } },
+				{ new: true }
+			)
+
+			if (!subject) {
+				response.status(404).json({
+					success: false,
+					message: `Subject not found!`,
+				})
+			} else {
 				response.status(201).json({
 					success: true,
-					message: `${teacher.name} allocated to ${subject.name}!`,
+					message: `Added teachers to subject ${subject.name}`,
+					subject: subject,
 				})
 			}
+		} catch (error) {
+			response.status(500).json({
+				success: false,
+				error: error.message,
+			})
+		}
+	}
+
+	// get teachers by subject
+	async getTeachersBySubject(request, response) {
+		let { subjectId } = request.body
+		try {
+			let subject = await Subject.findOne({ _id: subjectId }).populate('teachers')
+			if (!subject) {
+				response.status(404).json({
+					success: false,
+					message: 'Subject not found!',
+				})
+			} else {
+				response.status(200).json({
+					success: true,
+					teachers: subject.teachers,
+				})
+			}
+		} catch (error) {
+			response.status(500).json({
+				success: false,
+				error: error.message,
+			})
 		}
 	}
 }

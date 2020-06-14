@@ -7,6 +7,7 @@ import BatchesController from '../controllers/BatchesController'
 import TeachersController from '../controllers/TeachersController'
 import SubjectsController from '../controllers/SubjectsController'
 import SectionsController from '../controllers/SectionsController'
+import SemestersController from '../controllers/SemestersController'
 import { checkAuth } from '../middlewares/auth'
 import { isAdmin } from '../middlewares/isAdmin'
 
@@ -26,11 +27,8 @@ ROUTER.get('/departments', checkAuth, DepartmentsController.getAllDepartments)
 ROUTER.put('/departments/:departmentId', checkAuth, DepartmentsController.updateDepartment)
 ROUTER.delete('/departments/:departmentId', checkAuth, DepartmentsController.deleteDepartment)
 
-ROUTER.post('/batches', checkAuth, BatchesController.addBatch)
-ROUTER.get('/batches', checkAuth, BatchesController.getAllBatches)
-ROUTER.get('/batches/:batchId', checkAuth, BatchesController.getSingleBatch)
-ROUTER.put('/batches/:batchId', checkAuth, BatchesController.updateBatchDetails)
-ROUTER.delete('/batches/:batchId', checkAuth, BatchesController.deleteBatch)
+ROUTER.post('/semesters/add-subjects', checkAuth, SemestersController.addSubjectsToSemester)
+ROUTER.post('/semesters/get-subjects', checkAuth, SemestersController.getSubjectsBySemester)
 
 ROUTER.post('/teachers', checkAuth, TeachersController.addTeacher)
 ROUTER.get('/teachers', checkAuth, TeachersController.getAllTeachers)
@@ -41,7 +39,15 @@ ROUTER.post('/subjects', checkAuth, SubjectsController.addSubject)
 ROUTER.get('/subjects', checkAuth, SubjectsController.getAllSubjects)
 ROUTER.put('/subjects/:subjectId', checkAuth, SubjectsController.updateSubject)
 ROUTER.delete('/subjects/:subjectId', checkAuth, SubjectsController.deleteSubject)
-ROUTER.put('/subjects/:subjectId/allocate-teacher', checkAuth, SubjectsController.allocateTeacher)
+ROUTER.post('/subjects/allocate-teachers', checkAuth, SubjectsController.allocateTeachersToSubject)
+ROUTER.post('/subjects/get-teachers', checkAuth, SubjectsController.getTeachersBySubject)
+
+ROUTER.post('/batches', checkAuth, BatchesController.addBatch)
+ROUTER.get('/batches', checkAuth, BatchesController.getAllBatches)
+ROUTER.put('/batches/:batchId', checkAuth, BatchesController.updateBatchDetails)
+ROUTER.delete('/batches/:batchId', checkAuth, BatchesController.deleteBatch)
+ROUTER.post('/batches/assign-sections', checkAuth, BatchesController.assignSectionsToBatch)
+ROUTER.post('/batches/get-sections', checkAuth, BatchesController.getSectionsByBatch)
 
 ROUTER.post('/sections', checkAuth, SectionsController.addSection)
 ROUTER.get('/sections', checkAuth, SectionsController.getAllSections)

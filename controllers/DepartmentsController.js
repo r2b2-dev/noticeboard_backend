@@ -77,7 +77,7 @@ class DepartmentsController {
 				if (!updatedDepartment) {
 					response.status(404).json({
 						success: false,
-						error: 'Department not found!',
+						message: 'Department not found!',
 					})
 				} else {
 					response.status(200).json({
@@ -104,7 +104,7 @@ class DepartmentsController {
 			if (!deletedDepartment) {
 				response.status(404).json({
 					success: false,
-					error: 'Department not found!',
+					message: 'Department not found!',
 				})
 			} else {
 				response.status(200).json({

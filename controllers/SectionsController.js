@@ -65,7 +65,7 @@ class SectionsController {
 			if (!singleSection) {
 				response.status(404).json({
 					success: false,
-					error: 'Section not found',
+					message: 'Section not found',
 				})
 			} else {
 				response.status(200).json({
@@ -129,7 +129,7 @@ class SectionsController {
 			if (!deletedSection) {
 				response.status(404).json({
 					success: false,
-					error: 'Section not found',
+					message: 'Section not found',
 				})
 			} else {
 				response.status(200).json({

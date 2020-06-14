@@ -99,7 +99,7 @@ class UsersController {
 					response.status(500).json({ success: false, error: error.message })
 				}
 			} else {
-				response.status(401).json({ success: false, error: 'You cannot update this record!' })
+				response.status(401).json({ success: false, message: 'You cannot update this record!' })
 			}
 		}
 	}
@@ -109,7 +109,7 @@ class UsersController {
 		try {
 			let deletedModerator = await User.findOneAndDelete({ _id: request.params.moderatorId })
 			if (!deletedModerator) {
-				response.status(404).json({ success: false, error: 'Moderator not found!' })
+				response.status(404).json({ success: false, message: 'Moderator not found!' })
 			} else {
 				response.status(200).json({
 					success: true,

@@ -39,23 +39,8 @@ class BatchesController {
 	// Get all batches
 	async getAllBatches(request, response) {
 		try {
-			let allBatches = await Batch.find().populate({ path: 'sections', options: { sort: 'section' } })
+			let allBatches = await Batch.find()
 			response.status(200).json({ success: true, batches: allBatches })
-		} catch (error) {
-			response.status(500).json({ success: false, error: error.message })
-		}
-	}
-
-	//Get a single batch
-	async getSingleBatch(request, response) {
-		try {
-			let batchId = request.params.batchId
-			let batch = await Batch.findById(batchId)
-			if (!batch) {
-				response.status(404).json({ success: false, error: 'Batch not found!' })
-			} else {
-				response.status(200).json({ success: true, batch: batch })
-			}
 		} catch (error) {
 			response.status(500).json({ success: false, error: error.message })
 		}
@@ -100,13 +85,55 @@ class BatchesController {
 			let batchId = request.params.batchId
 			let deletedBatch = await Batch.findOneAndDelete({ _id: batchId })
 			if (!deletedBatch) {
-				response.status(404).json({ success: false, error: 'Batch not found!' })
+				response.status(404).json({ success: false, message: 'Batch not found!' })
 			} else {
 				response.status(200).json({
 					success: true,
 					message: `Removed Batch ${deletedBatch.label}!`,
 					batch: deletedBatch,
 				})
+			}
+		} catch (error) {
+			response.status(500).json({ success: false, error: error.message })
+		}
+	}
+
+	// assign sections to batch
+	async assignSectionsToBatch(request, response) {
+		let { batchId } = request.body
+		let sectionsToAdd = request.body.sections
+		try {
+			let batch = await Batch.findOneAndUpdate({ _id: batchId }, { $push: { sections: { $each: sectionsToAdd } } }, { new: true })
+
+			if (!batch) {
+				response.status(404).json({
+					success: false,
+					message: `Batch not found!`,
+				})
+			} else {
+				response.status(201).json({
+					success: true,
+					message: `Added sections to batch ${batch.label}`,
+					batch: batch,
+				})
+			}
+		} catch (error) {
+			response.status(500).json({
+				success: false,
+				error: error.message,
+			})
+		}
+	}
+
+	//Get sections by Batch
+	async getSectionsByBatch(request, response) {
+		try {
+			let { batchId } = request.body
+			let batch = await Batch.findById(batchId).populate({ path: 'sections', options: { sort: { sections: 'asc' } } })
+			if (!batch) {
+				response.status(404).json({ success: false, message: 'Batch not found!' })
+			} else {
+				response.status(200).json({ success: true, sections: batch.sections })
 			}
 		} catch (error) {
 			response.status(500).json({ success: false, error: error.message })

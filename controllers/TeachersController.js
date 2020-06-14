@@ -101,7 +101,7 @@ class TeachersController {
 			if (!deletedTeacher) {
 				response.status(404).json({
 					success: false,
-					error: 'Teacher not found!',
+					message: 'Teacher not found!',
 				})
 			} else {
 				response.status(200).json({
