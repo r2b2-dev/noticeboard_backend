@@ -7,6 +7,10 @@ const SectionSchema = new Schema({
 		type: String,
 		required: [true, 'Section is required!'],
 	},
+	createdAt: {
+		type: Date,
+		default: Date.now,
+	},
 })
 
 SectionSchema.statics.sectionExists = async (section) => {

@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon --exec babel-node app.js",
-    "admin:seed": "babel-node seed/AdminSeed.js"
+    "db:seed":"babel-node seed/DbSeed.js"
   },
   "author": "R2B2",
   "license": "ISC",
