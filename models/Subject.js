@@ -22,16 +22,16 @@ const SubjectSchema = new Schema({
 	},
 })
 
-SubjectSchema.methods.toJSON = function () {
-	let subject = this.toObject()
-	delete subject.__v
-	return subject
-}
-
 //if subject already exists
 SubjectSchema.statics.subjectExists = async (subjectName) => {
 	let subjectExists = await Subject.findOne({ name: subjectName })
 	return subjectExists
+}
+
+SubjectSchema.methods.toJSON = function () {
+	let subject = this.toObject()
+	delete subject.__v
+	return subject
 }
 
 const Subject = mongoose.model('subject', SubjectSchema)

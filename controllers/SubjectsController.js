@@ -12,20 +12,22 @@ class SubjectsController {
 				success: false,
 				error: { field: error.path[0], message: error.message },
 			})
-		} else if (await Subject.subjectExists(result.value.name)) {
-			response.status(409).json({
-				success: false,
-				error: { field: 'name', message: 'Subject already added!' },
-			})
 		} else {
 			try {
-				let subject = new Subject(result.value)
-				let newSubject = await subject.save()
-				response.status(201).json({
-					success: true,
-					message: `Added a new subject ${newSubject.name}!`,
-					subject: newSubject,
-				})
+				if (await Subject.subjectExists(result.value.name)) {
+					response.status(409).json({
+						success: false,
+						error: { field: 'name', message: 'Subject already added!' },
+					})
+				} else {
+					let subject = new Subject(result.value)
+					let newSubject = await subject.save()
+					response.status(201).json({
+						success: true,
+						message: `Added a new subject ${newSubject.name}!`,
+						subject: newSubject,
+					})
+				}
 			} catch (error) {
 				response.status(500).json({
 					success: false,

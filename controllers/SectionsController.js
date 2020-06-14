@@ -20,7 +20,7 @@ class SectionsController {
 				if (await Section.sectionExists(result.value.section.toUpperCase())) {
 					response.status(409).json({
 						success: false,
-						error: { field: 'section', message: 'Section already added!' },
+						error: { field: 'section', message: 'Section exists already!' },
 					})
 				} else {
 					let value = { section: result.value.section.toUpperCase() }
@@ -94,7 +94,7 @@ class SectionsController {
 				let sectionExists = await Section.sectionExists(section)
 				if (sectionExists) {
 					if (sectionExists._id.toString() !== sectionId.toString()) {
-						response.status(409).json({ success: false, error: { field: 'section', message: 'Section already added!' } })
+						response.status(409).json({ success: false, error: { field: 'section', message: 'Section exists already!' } })
 						return
 					}
 				}

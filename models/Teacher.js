@@ -13,16 +13,16 @@ const TeacherSchema = new Schema({
 	},
 })
 
-TeacherSchema.methods.toJSON = function () {
-	let teacher = this.toObject()
-	delete teacher.__v
-	return teacher
-}
-
 //if teacher already exists
 TeacherSchema.statics.teacherExists = async (teacherName) => {
 	let teacherExists = await Teacher.findOne({ name: teacherName })
 	return teacherExists
+}
+
+TeacherSchema.methods.toJSON = function () {
+	let teacher = this.toObject()
+	delete teacher.__v
+	return teacher
 }
 
 const Teacher = mongoose.model('teacher', TeacherSchema)

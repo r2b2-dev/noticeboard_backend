@@ -11,20 +11,22 @@ class TeachersController {
 				success: false,
 				error: { field: error.path[0], message: error.message },
 			})
-		} else if (await Teacher.teacherExists(result.value.name)) {
-			response.status(409).json({
-				success: false,
-				error: { field: 'name', message: 'Teacher already added!' },
-			})
 		} else {
 			try {
-				let teacher = new Teacher(result.value)
-				let newTeacher = await teacher.save()
-				response.status(201).json({
-					success: true,
-					message: `Added a new teacher ${newTeacher.name}!`,
-					teacher: newTeacher,
-				})
+				if (await Teacher.teacherExists(result.value.name)) {
+					response.status(409).json({
+						success: false,
+						error: { field: 'name', message: 'Teacher already added!' },
+					})
+				} else {
+					let teacher = new Teacher(result.value)
+					let newTeacher = await teacher.save()
+					response.status(201).json({
+						success: true,
+						message: `Added a new teacher ${newTeacher.name}!`,
+						teacher: newTeacher,
+					})
+				}
 			} catch (error) {
 				response.status(500).json({
 					success: false,
