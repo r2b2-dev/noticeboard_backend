@@ -11,20 +11,22 @@ class BatchesController {
 				success: false,
 				error: { field: error.path[0], message: error.message },
 			})
-		} else if (await Batch.batchExists(result.value.label)) {
-			response.status(409).json({
-				success: false,
-				error: { field: 'batch', message: 'Batch already added!' },
-			})
 		} else {
 			try {
-				let batch = new Batch(result.value)
-				let newBatch = await batch.save()
-				response.status(201).json({
-					success: true,
-					message: `Added a new batch ${newBatch.label}`,
-					batch: newBatch,
-				})
+				if (await Batch.batchExists(result.value.label)) {
+					response.status(409).json({
+						success: false,
+						error: { field: 'batch', message: 'Batch exists already!' },
+					})
+				} else {
+					let batch = new Batch(result.value)
+					let newBatch = await batch.save()
+					response.status(201).json({
+						success: true,
+						message: `Added a new batch ${newBatch.label}`,
+						batch: newBatch,
+					})
+				}
 			} catch (error) {
 				response.status(500).json({
 					sucess: false,
@@ -37,7 +39,7 @@ class BatchesController {
 	// Get all batches
 	async getAllBatches(request, response) {
 		try {
-			let allBatches = await Batch.find()
+			let allBatches = await Batch.find().populate({ path: 'sections', options: { sort: 'section' } })
 			response.status(200).json({ success: true, batches: allBatches })
 		} catch (error) {
 			response.status(500).json({ success: false, error: error.message })
@@ -69,13 +71,20 @@ class BatchesController {
 			let batchId = request.params.batchId
 			let { label } = result.value
 			try {
+				let batchExists = await Batch.batchExists(label)
+				if (batchExists) {
+					if (batchExists._id.toString() !== batchId.toString()) {
+						response.status(409).json({ success: false, error: { field: 'label', message: 'Batch exists already!' } })
+						return
+					}
+				}
 				let updatedBatch = await Batch.findOneAndUpdate({ _id: batchId }, { label }, { new: true })
 				if (!updatedBatch) {
 					response.status(404).json({ success: false, message: 'Batch not found!' })
 				} else {
-					response.status(201).json({
+					response.status(200).json({
 						success: true,
-						message: `Batch updated!`,
+						message: `Batch details updated!`,
 						batch: updatedBatch,
 					})
 				}
@@ -85,7 +94,7 @@ class BatchesController {
 		}
 	}
 
-	// Delete a  batch
+	// Delete batch
 	async deleteBatch(request, response) {
 		try {
 			let batchId = request.params.batchId

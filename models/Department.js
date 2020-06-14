@@ -9,12 +9,6 @@ const DepartmentSchema = new Schema({
 		trim: true,
 	},
 
-	type: {
-		type: String,
-		required: [true, 'Department type is required'],
-		trim: true,
-	},
-
 	location: {
 		type: String,
 		required: [true, 'Department location is required'],
@@ -26,6 +20,11 @@ const DepartmentSchema = new Schema({
 		default: Date.now,
 	},
 })
+
+DepartmentSchema.statics.departmentExists = async (departmentName) => {
+	let departmentExists = await Department.findOne({ name: departmentName })
+	return departmentExists
+}
 
 DepartmentSchema.methods.toJSON = function () {
 	let department = this.toObject()
