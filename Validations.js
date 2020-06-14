@@ -142,6 +142,19 @@ const addTeacher = (teacherData) => {
 	return addTeacherSchema.validate(teacherData)
 }
 
+const addSection = (sectionData) => {
+	const addSectionSchema = Joi.object({
+		section: Joi.string().pattern(new RegExp('[a-zA-Z]')).max(1).required().messages({
+			'string.base': 'Section name must be a string',
+			'string.empty': 'Section name cannot be empty',
+			'string.pattern.base': 'Section name must be an alphabet',
+			'string.max': 'Section name must be of 1 letter',
+			'any.required': 'section is a required field',
+		}),
+	})
+	return addSectionSchema.validate(sectionData)
+}
+
 module.exports = {
 	signIn,
 	addModerator,
@@ -150,4 +163,5 @@ module.exports = {
 	addBatch,
 	addSubject,
 	addTeacher,
+	addSection,
 }
