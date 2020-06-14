@@ -13,25 +13,27 @@ class UsersController {
 				success: false,
 				error: { field: error.path[0], message: error.message },
 			})
-		} else if (await User.emailExists(result.value.email)) {
-			response.status(409).json({
-				success: false,
-				error: { field: 'email', message: 'Email already taken!' },
-			})
 		} else {
 			try {
-				// create a password for the moderator
-				let splitted = result.value.email.split('@')
-				let password = splitted[0] + '_12345@noticeboard'
-				// assign the password to the moderator and finally save in the db
-				let moderator = new User(result.value)
-				moderator.password = password
-				let newModerator = await moderator.save()
-				response.status(201).json({
-					success: true,
-					message: `Added a new moderator ${newModerator.firstName + ' ' + newModerator.lastName}!`,
-					moderator: newModerator,
-				})
+				if (await User.emailExists(result.value.email)) {
+					response.status(409).json({
+						success: false,
+						error: { field: 'email', message: 'Email already taken!' },
+					})
+				} else {
+					// create a password for the moderator
+					let splitted = result.value.email.split('@')
+					let password = splitted[0] + '_12345@noticeboard'
+					// assign the password to the moderator and finally save in the db
+					let moderator = new User(result.value)
+					moderator.password = password
+					let newModerator = await moderator.save()
+					response.status(201).json({
+						success: true,
+						message: `Added a new moderator ${newModerator.firstName + ' ' + newModerator.lastName}!`,
+						moderator: newModerator,
+					})
+				}
 			} catch (error) {
 				response.status(500).json({ success: false, error: error.message })
 			}

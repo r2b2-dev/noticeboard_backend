@@ -10,15 +10,16 @@ const BatchSchema = new Schema({
 	},
 })
 
-BatchSchema.methods.toJSON = function () {
-	let batch = this.toObject()
-	delete batch.__v
-	return batch
-}
 //check if batch exists already
 BatchSchema.statics.batchExists = async function (label) {
 	let batchExists = await Batch.findOne({ label: label })
 	return batchExists
+}
+
+BatchSchema.methods.toJSON = function () {
+	let batch = this.toObject()
+	delete batch.__v
+	return batch
 }
 
 const Batch = mongoose.model('batch', BatchSchema)
