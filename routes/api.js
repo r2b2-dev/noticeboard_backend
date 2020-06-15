@@ -7,6 +7,7 @@ import BatchesController from '../controllers/BatchesController'
 import TeachersController from '../controllers/TeachersController'
 import SubjectsController from '../controllers/SubjectsController'
 import SectionsController from '../controllers/SectionsController'
+import RoutinesController from '../controllers/RoutinesController'
 import SemestersController from '../controllers/SemestersController'
 import { checkAuth } from '../middlewares/auth'
 import { isAdmin } from '../middlewares/isAdmin'
@@ -54,5 +55,11 @@ ROUTER.get('/sections', checkAuth, SectionsController.getAllSections)
 ROUTER.get('/sections/:sectionId', checkAuth, SectionsController.getSingleSection)
 ROUTER.put('/sections/:sectionId', checkAuth, SectionsController.updateSection)
 ROUTER.delete('/sections/:sectionId', checkAuth, SectionsController.deleteSection)
+
+ROUTER.post('/routines', checkAuth, RoutinesController.addRoutine)
+ROUTER.get('/routines', checkAuth, RoutinesController.getAllRoutines)
+ROUTER.get('/routines/:routineId', checkAuth, RoutinesController.getSingleRoutine)
+ROUTER.put('/routines/:routineId', checkAuth, RoutinesController.updateRoutineDetails)
+ROUTER.delete('/routines/:routineId', checkAuth, RoutinesController.deleteRoutine)
 
 export default ROUTER

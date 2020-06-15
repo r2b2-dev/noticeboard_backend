@@ -159,6 +159,7 @@ const addSubject = (subjectData) => {
 			'string.min': 'Subject name must be at least 2 characters long',
 			'any.required': 'name is a required field',
 		}),
+
 	})
 	return addSubjectSchema.validate(subjectData)
 }
@@ -171,6 +172,7 @@ const addTeacher = (teacherData) => {
 			'string.min': 'Teacher name must be at least 2 characters long',
 			'any.required': 'name is a required field',
 		}),
+
 	})
 	return addTeacherSchema.validate(teacherData)
 }
@@ -194,6 +196,7 @@ module.exports = {
 	updateModerator,
 	addDepartment,
 	addBatch,
+	addRoutine,
 	addSubject,
 	addTeacher,
 	addSection,

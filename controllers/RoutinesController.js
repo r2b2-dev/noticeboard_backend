@@ -30,7 +30,7 @@ class RoutinesController {
 	// Get all batches
 	async getAllRoutines(request, response) {
 		try {
-			let allRoutines = await Routine.find().populate({ path: 'batchId' })
+			let allRoutines = await Routine.find().populate({ path: 'batchId' }).populate({ path: 'subjectId' })
 			if (!allRoutines) {
 				response.status(404).json({ success: false, error: 'Routine not found!' })
 			} else {
@@ -44,7 +44,7 @@ class RoutinesController {
 	async getSingleRoutine(request, response) {
 		try {
 			let routineId = request.params.routineId
-			let routine = await Routine.findById(routineId)
+			let routine = await Routine.findById(routineId).populate({ path: 'batchId' }).populate({ path: 'subjectId' })
 			if (!routine) {
 				response.status(404).json({ success: false, error: 'Routine not found!' })
 			} else {

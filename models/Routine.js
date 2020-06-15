@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import Batch from './Batch'
+import Subject from './Subject'
+import Section from './Section'
 
 const Schema = mongoose.Schema
 
@@ -10,9 +12,8 @@ const RoutineSchema = new Schema({
         trim: true,
     },
     subjectId: {
-        type: String,
-        required: [true, 'Batch label is required'],
-        trim: true,
+        type: Schema.Types.ObjectId,
+        ref: Subject
     },
     batchId: {
         type: Schema.Types.ObjectId,
